@@ -1,0 +1,3 @@
+.env
+keys.py
+#gitignore is to prevent the key from being pushed
