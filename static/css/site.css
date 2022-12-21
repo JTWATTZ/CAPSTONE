@@ -1,3 +1,29 @@
 h1 {
     color: firebrick;
   }
+  h1 {
+    color: rgb(3, 91, 95);
+  }
+  
+  body {
+    border-image: round;
+    background-color:rgb(246, 94, 175);
+    /* background: url("Static-Electricity.png"); */
+  
+    
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: cursive;
+   
+    /* background-color: #cccccc; */
+  }
+  input, button {
+    appearance: none;
+    /* border: none; */
+    outline: black;
+    background: blanchedalmond;
+  }
+  .strike{
+  
+    text-decoration: line-through
+    
+    }

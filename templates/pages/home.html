@@ -1,3 +1,37 @@
 {% extends 'base.html' %} {% block content %}
+<div class="container mt-5">
+    <form action="{% url 'home' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for ="food-item">Food items</label>
+            <input
+            type="text"
+            name="dish"
+            {% comment %} name="dish" is used in views.py for python querie for the API {% endcomment %}
+            class="form-control"
+            placeholder="food-dish"
+            />
+            <div class="form-group">
+                <label for ="food-item">only items</label>
+                <input
+                type="text"
+                name="I have this"
+                {% comment %} name="dish" is used in views.py for python querie for the API {% endcomment %}
+                class="form-control"
+                placeholder="whats in the fridge?"
+                />
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+        <button type="submit" class="btn btn-primary">at home recipies</button>
+    </form>
+ 
 <h1>Home</h1>
+<h6>{{recipe_title}}</h6>
+<img src="{{recipe_image_url}}" width="100" height="100" >
+
+
+{% comment %} {{recipe1}}
+{{picture_of_food}} {% endcomment %}
+{% comment %} recipe2 is the key name {% endcomment %}
 {% endblock %}
