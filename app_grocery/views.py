@@ -7,13 +7,14 @@ apikey = api_key()
 # user_choice = 
 
 def home(request):
+    
     if request.method=='POST':
         print('hello')
         params = {
     'instructionsRequired':True,
     'query':request.POST['dish'],
     'addChildren':True,
-    'number':20,
+    'number':10,
     'excludeIngredients':True,#comeback to as well
     'addRecipeInformation':True,
 }#this is how you can take the input and put in your search.  'dish' is in home.html
@@ -24,15 +25,23 @@ def home(request):
         recipe_image_url = recipe_image[1]##Dec28
         recipe_title = recipe_image[0]
         #print("picture of food",picture_of_food)
+        info = recipe['results'][0]['id']##added 27Dec from test file
         whats_at_home = requests.get(f"https://api.spoonacular.com/food/ingredients/search?apiKey={apikey}",params=params)
         url = requests.get(f"https://api.spoonacular.com/recipes/complexSearch?apiKey={apikey}",params=params)##added 27Dec from test file
-
-        recipe = url.json()##added 27Dec from test file
-        info = recipe['results'][0]['id']##added 27Dec from test file
         url2= requests.get(f"https://api.spoonacular.com/recipes/{info}/information?apiKey={apikey}")##added 27Dec from test file
         recipe2 = url2.json()
-        recipe = url.json()
-        instructions=recipe2["instructions"] 
+        recipe = url.json()##added 27Dec from test file
+        info = recipe['results'][0]['id']##added 27Dec from test file
+        rec_lists =[]
+        for x in recipe['results']:
+            print(x['id'])
+            
+            url2= requests.get(f"https://api.spoonacular.com/recipes/{x['id']}/information?apiKey={apikey}")##added 27Dec from test file
+            recipe2 = url2.json()
+            rec_lists.append(recipe2)
+           
+        print(rec_lists)
+        instructions=recipe2["instructions"].strip('<ol><li>/').strip('</li><li>')
 # print(recipe['results'][0]['title'])##stopped 28 Dec
 # print(recipe['results'][0]['image'])##stopped 28 Dec
         picture_of_food = requests.get(recipe['results'][0]['image'])
@@ -42,9 +51,10 @@ def home(request):
             for numz in range(0,len(extend_ingred)):
 
                 items.append(extend_ingred[numz]['name'])
-            return items
-
-        item_to_get=recipe_list()
+                cut=","
+            return cut.join(items)
+       
+        item_to_get=recipe_list().strip('<ol><li>/')
 
         context = {
             'recipe_image_url':recipe_image_url,##28Dec
@@ -52,6 +62,8 @@ def home(request):
             'picture_of_food':picture_of_food,
             'instructions':instructions,##added 27Dec from test file
             'item_to_get':item_to_get,
+            'rec_lists':rec_lists,
+           
 
             #recipe is the key and we are using it as the value. THis is what is in the home.html file and is listed in the {{}}
             # make a for loop for the results in the html file.
@@ -69,25 +81,26 @@ BIG CHANGE WHICH IS ME TRYING TO TAB EVERYTING AFTER LINE 46 OVER TO FIT IN THE 
 def about(request):
     return render(request, 'pages/home.html')# this is app_grocery/about
 #params is the request object and the = is the var
-params = {
-     'instructionsRequired':'True',
-     'query':'True',
-     'addRecipeInformation':True
- }
-##params.update({"query":True})##added 28 Dec
+# params = {
+#      'instructionsRequired':'True',
+#      'query':'True',
+#      'addRecipeInformation':True,
+#      'number':15,
+#  }
+# ##params.update({"query":True})##added 28 Dec
 
-whats_at_home = requests.get(f"https://api.spoonacular.com/food/ingredients/search?apiKey={apikey}",params=params)
-url = requests.get(f"https://api.spoonacular.com/recipes/complexSearch?apiKey={apikey}",params=params)##added 27Dec from test file
+# whats_at_home = requests.get(f"https://api.spoonacular.com/food/ingredients/search?apiKey={apikey}",params=params)
+# url = requests.get(f"https://api.spoonacular.com/recipes/complexSearch?apiKey={apikey}",params=params)##added 27Dec from test file
 
-recipe = url.json()##added 27Dec from test file
-info = recipe['results'][0]['id']##added 27Dec from test file
-url2= requests.get(f"https://api.spoonacular.com/recipes/{info}/information?apiKey={apikey}")##added 27Dec from test file
-recipe2 = url2.json()
-recipe = url.json()
-instructions=recipe2["instructions"] 
-# print(recipe['results'][0]['title'])##stopped 28 Dec
-# print(recipe['results'][0]['image'])##stopped 28 Dec
-picture_of_food = requests.get(recipe['results'][0]['image'])
+# recipe = url.json()##added 27Dec from test file
+# info = recipe['results'][0]['id']##added 27Dec from test file
+# url2= requests.get(f"https://api.spoonacular.com/recipes/{info}/information?apiKey={apikey}")##added 27Dec from test file
+# recipe2 = url2.json()
+# recipe = url.json()
+# instructions=recipe2["instructions"] 
+# # print(recipe['results'][0]['title'])##stopped 28 Dec
+# # print(recipe['results'][0]['image'])##stopped 28 Dec
+#picture_of_food = requests.get(recipe['results'][0]['image'])
 
 def recipe(request):
     return render(request, 'pages/home.html')##Dec29 changed from about to home

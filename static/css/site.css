@@ -2,12 +2,12 @@ h1 {
     color: firebrick;
   }
   h1 {
-    color: rgb(6, 25, 146);
+    color: rgb(46, 73, 247);
   }
   
   body {
     border-image: round;
-    background-color:rgb(105, 192, 255);
+    background-color:rgb(247, 213, 163);
     /* background: url("Static-Electricity.png"); */
   
     
