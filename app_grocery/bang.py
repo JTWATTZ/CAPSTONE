@@ -8,6 +8,7 @@ apikey = api_key()
 
 urlz = "https://api.kroger.com/v1/connect/oauth2/token"
 
+
 payload='grant_type=client_credentials&scope=product.compact'
 headers = {
   'Content-Type': 'application/x-www-form-urlencoded',
@@ -65,10 +66,56 @@ def home(request):
 
                 items.append(extend_ingred[numz]['name'])
                 cut=","
+            print(items)   
             return cut.join(items)
-       
+            
         item_to_get=recipe_list().strip('<ol><li>/')
+        def generate_access_token():
 
+            urlz = "https://api.kroger.com/v1/connect/oauth2/token"
+
+            payload='grant_type=client_credentials&scope=product.compact'
+            headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic cHJvamVjdHB5dGhvbmphdmFzY3JpcHQtMDg3NGNiNGM4NGY0MmNlNmE3ZTA3YjJmOTE4Yjg1MzAyNjg4OTAyNzc0MzczNzk1OTAwOkp6OUp1TlpScWdwLTJ6M0F1WGczak5POTZwOEhZS18yM0sxZXdNdm0='}
+
+            response = requests.request("POST", urlz, headers=headers, data=payload)
+            data = response.json()
+
+            bear_key = data['access_token']
+            return bear_key
+            print(bear_key)
+           ##this is to use that token to make a request
+        def get_data():
+            # item_to_get
+            # item = str(item)
+            # item = item.strip("'")
+            token=generate_access_token()
+            # url = f"https://api.kroger.com/v1/products?filter.term={item}&filter.limit=3&filter.locationId=01400943"
+            
+            # url = f"https://api.kroger.com/v1/products?filter.term={item_to_get}&filter.limit=3&filter.locationId=01400943"
+            # print(url)
+            # print(url)
+            headers = {
+            'Authorization': f'Bearer {token}'
+        
+            }
+            for item in item_to_get:
+                response = requests.request("GET", urlzz=f"https://api.kroger.com/v1/products?filter.term={item}&filter.limit=3&filter.locationId=01400943", headers=headers)
+            
+            data = response.json()
+            aisle_location = ''
+            try:
+            
+                aisle_location= data['data'][0]['aisleLocations'][0]['description']
+            except:
+                aisle_location = ''    
+
+            return aisle_location
+
+        
+        
+        get_data()
         context = {
             'recipe_image_url':recipe_image_url,##28Dec
             'recipe_title':recipe_title,
@@ -76,11 +123,13 @@ def home(request):
             'instructions':instructions,##added 27Dec from test file
             'item_to_get':item_to_get,
             'rec_lists':rec_lists,
-           
-
+            'get_data':get_data,
+            # 'aisle_location':aisle_location,
             #recipe is the key and we are using it as the value. THis is what is in the home.html file and is listed in the {{}}
             # make a for loop for the results in the html file.
         }
+        
+        
         return render(request, 'pages/home.html',context)# this is app_grocery/home
 
     else:

@@ -27,7 +27,7 @@ def home(request):
     'instructionsRequired':True,
     'query':request.POST['dish'],
     'addChildren':True,
-    'number':3,
+    'number':20,
     'excludeIngredients':True,#comeback to as well
     'addRecipeInformation':True,
 }#this is how you can take the input and put in your search.  'dish' is in home.html

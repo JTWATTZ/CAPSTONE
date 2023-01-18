@@ -1,3 +1,10 @@
 {% extends 'base.html' %} {% block content %}
-<h1>About</h1>
+<h1>Selected Choice</h1>
+<button type="button" class="btn btn-primary">Select</button>
+{% for ingredient in recipe.extendedIngredients %}
+<h5>{{ingredient.original}}</h5>
+{% endfor %}
+</p>
+<h6>{{recipe.instructions}}</h6>
+
 {% endblock %}

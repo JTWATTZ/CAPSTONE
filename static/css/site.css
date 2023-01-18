@@ -7,7 +7,7 @@ h1 {
   
   body {
     border-image: round;
-    background-color:rgb(247, 213, 163);
+    background-color:rgb(207, 236, 238);
     /* background: url("Static-Electricity.png"); */
   
     
@@ -26,4 +26,16 @@ h1 {
   
     text-decoration: line-through
     
+    }
+    h4 {
+      color: rgb(137, 34, 178);
+    }
+    h6 {
+      color: rgb(229, 133, 242);
+    }
+    h5 {
+      color: rgb(173, 178, 178);
+    }
+    strong {
+      color: rgb(167, 171, 167);
     }

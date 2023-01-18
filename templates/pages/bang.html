@@ -68,14 +68,21 @@
                 <div class="accordion-body">
                   <strong>Ingredients</strong> 
                   <code>
+                    
+                    
                     {% for ingredient in recipe.extendedIngredients %}
                     {{ingredient.original}}
+                    {{ingredient.name}}
+
                     
                     {% endfor %}
-                    <h1>test</h1>
-                    {{ingredient.name}}
+                    
+                    <h4>{{get_data}}</h4>
+                    <h6>{{item_to_get}}</h6>
+                    
                     <h6>{{recipe.instructions}}</h6>
-                  </code>, 
+                   
+                  </code> 
                 </div>
               </div>
             </div>
